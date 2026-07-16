@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacher Tally</title>
+<style>
+  :root{
+    --tt-green:#22B49B;
+    --tt-green-dark:#12907C;
+    --ink:#1A1A1A;
+    --muted:#6B7280;
+    --page:#F2F4F5;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--page); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    display:flex; justify-content:center; align-items:center;
+    padding:24px 16px;
+  }
+
+  .phone{
+    width:390px; max-width:100%; background:#fff;
+    border-radius:38px; border:1px solid #D4D8DB;
+    box-shadow:0 18px 44px rgba(16,24,40,.16);
+    padding:12px 10px 16px; position:relative;
+  }
+  .status{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:4px 16px 10px; font-size:13px; font-weight:600;
+  }
+  .status .icons{letter-spacing:2px; font-size:11px;}
+  .screen{padding:0 18px 8px; min-height:560px; display:flex; flex-direction:column;}
+
+  .brandrow{display:flex; justify-content:space-between; align-items:flex-start;}
+  .brand{font-size:25px; font-weight:800; color:var(--tt-green-dark); letter-spacing:-.5px;}
+  .brand em{font-style:italic; font-weight:700;}
+  .qmark{
+    width:26px; height:26px; border-radius:50%; border:2px solid var(--tt-green);
+    color:var(--tt-green); font-size:15px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin-top:3px;
+  }
+  .section-label{
+    color:var(--tt-green-dark); font-weight:800; font-size:17px; margin:2px 0 14px;
+  }
+
+  /* ---- preamble ---- */
+  .intro h1{font-size:19px; line-height:1.3; margin:6px 0 14px;}
+  .intro p{font-size:14.5px; line-height:1.5; margin:0 0 12px; color:#33383D;}
+  .intro .lead{font-weight:600; color:var(--ink);}
+
+  /* ---- task ---- */
+  .stem{font-size:15px; font-weight:600; line-height:1.35; margin:0 0 5px;}
+  .assume{font-size:12.5px; color:var(--muted); line-height:1.4; margin:0 0 14px;}
+
+  .opt{
+    display:flex; gap:11px; align-items:flex-start;
+    padding:10px 4px 10px 0; cursor:pointer; border-radius:10px;
+  }
+  .opt:hover{background:#FAFBFB;}
+  .radio{
+    flex:0 0 21px; width:21px; height:21px; border-radius:50%;
+    border:2px solid var(--tt-green); margin-top:2px; position:relative; background:#fff;
+  }
+  .opt.sel .radio{background:var(--tt-green); border-color:var(--tt-green);}
+  .opt.sel .radio::after{
+    content:"✓"; position:absolute; inset:0; color:#fff; font-size:13px; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .optbody{font-size:13.5px; line-height:1.45;}
+  .opt.sel .optbody{font-weight:700;}
+  .opt:not(.sel) .optbody{color:#3F4348;}
+  .jobline{margin:0 0 3px;}
+  .jobline b{font-weight:800;}
+  .opt:not(.sel) .jobline b{font-weight:700; color:var(--ink);}
+
+  .spacer{flex:1;}
+  .nextwrap{display:flex; justify-content:flex-end; padding:14px 4px 6px;}
+  .next{
+    background:var(--tt-green); color:#fff; border:0; border-radius:26px;
+    padding:12px 34px; font-size:16px; font-weight:700; cursor:pointer;
+    font-family:inherit;
+  }
+  .next:disabled{opacity:.4; cursor:not-allowed;}
+  .next:focus-visible{outline:3px solid #0B5; outline-offset:2px;}
+  .homebar{width:130px; height:5px; border-radius:3px; background:#111; margin:12px auto 2px;}
+
+  .end{text-align:center; padding:40px 10px;}
+  .end h2{font-size:20px; margin:0 0 8px;}
+  .end p{font-size:14px; color:var(--muted); margin:0;}
+
+  textarea{
+    width:100%; border:1px solid #D4D8DB; border-radius:10px;
+    padding:11px 12px; font-size:14px; line-height:1.45; font-family:inherit;
+    color:var(--ink); resize:vertical; margin-top:4px;
+  }
+  textarea:focus{outline:2px solid var(--tt-green); outline-offset:1px; border-color:var(--tt-green);}
+  textarea::placeholder{color:#A8AEB4;}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="status">
+    <span>12:43</span>
+    <span class="icons">▪▪▫ ᯤ ▮</span>
+  </div>
+  <div class="screen">
+    <div class="brandrow">
+      <div class="brand">Teacher<em>Tally</em></div>
+      <div class="qmark">?</div>
+    </div>
+    <div class="section-label">Extra Questions</div>
+    <div id="view"></div>
+  </div>
+  <div class="homebar"></div>
+</div>
+
+<script>
+/* ============================================================
+   ATTRIBUTES — edit level wording here
+   ============================================================ */
+const ATTR = {
+  hours:      { name:"Hours actually worked",       levels:["50 to 54 hours","45 to 49 hours","40 to 44 hours"] },
+  support:    { name:"Support staff to reduce workload", levels:["None available","Some for specific tasks","Dedicated and regularly available"] },
+  maternity:  { name:"Paid maternity leave",        levels:["66% pay for 18 weeks","100% for 18 weeks","100% for 24 weeks"] },
+  wfh:        { name:"Days working from home",      levels:["None","Half a day a week","2 days a week"] },
+  outside:    { name:"Work outside contracted hours", levels:["Regular evening and weekend work","Occasional","Rare"] },
+  paternity:  { name:"Paid paternity leave",        levels:["90% for 2 weeks","100% for 18 weeks","100% for 24 weeks"] },
+  flexstart:  { name:"Start and finish times",      levels:["Fixed start and finish times","Start later or finish earlier, once a fortnight","Start later or finish earlier, once a week"] },
+  appts:      { name:"Time off for appointments",   levels:["Discouraged","Accommodated with advance planning","Flexibly supported when needed"] },
+  parttime:   { name:"Part-time and job sharing",   levels:["Discouraged","Considered case by case","Actively supported"] },
+  compressed: { name:"Compressed working week",     levels:["Standard 5-day week","9-day fortnight available","4-day week available"] },
+  salary:     { name:"Salary",                      levels:["10% lower than current","Same as current","10% higher than current"] },
+};
+
+/* ============================================================
+   DECKS — salary always last
+   ============================================================ */
+const DECKS = [
+  ["hours","support","maternity","salary"],
+  ["wfh","outside","paternity","salary"],
+  ["flexstart","appts","parttime","compressed","salary"],
+];
+
+/* ============================================================
+   FIXED TASKS — every level of every attribute appears at least
+   once across the six tasks. [Job A level, Job B level]
+   Verified: 33 of 33 level-slots covered, no dominated options.
+   ============================================================ */
+const TASKS = [
+  { deck:0, pairs:{ hours:[0,2], support:[1,0], maternity:[2,0], salary:[1,2] } },
+  { deck:0, pairs:{ hours:[1,0], support:[2,1], maternity:[1,2], salary:[0,1] } },
+  { deck:1, pairs:{ wfh:[0,2], outside:[1,0], paternity:[2,0], salary:[1,2] } },
+  { deck:1, pairs:{ wfh:[1,0], outside:[2,1], paternity:[1,2], salary:[0,1] } },
+  { deck:2, pairs:{ flexstart:[0,2], appts:[1,0], parttime:[2,0], compressed:[0,1], salary:[1,2] } },
+  { deck:2, pairs:{ flexstart:[1,0], appts:[2,1], parttime:[1,2], compressed:[2,0], salary:[0,1] } },
+];
+
+/* ============================================================ */
+let stage = "intro";   // intro | task | end
+let idx = 0;
+const picks = {};
+const view = document.getElementById("view");
+
+function renderIntro(){
+  view.innerHTML =
+    '<div class="intro">' +
+      '<h1>Before you start</h1>' +
+      '<p class="lead">You will see some pairs of jobs.</p>' +
+      '<p>Everything listed about each job is accurate and reflects the actual working conditions of that job.</p>' +
+      '<p>For each pair, choose the job you would prefer.</p>' +
+      '<p>Assume the two jobs are identical in every other respect.</p>' +
+      '<p>There are no right answers.</p>' +
+    '</div>' +
+    '<div class="spacer"></div>' +
+    '<div class="nextwrap"><button class="next" id="go">Start</button></div>';
+  document.getElementById("go").onclick = () => { stage = "task"; render(); };
+}
+
+function renderTask(){
+  const t = TASKS[idx];
+  const deck = DECKS[t.deck];
+  const labels = ["Job A offers:", "Job B offers:"];
+
+  let html =
+    '<p class="stem">Which job would you prefer?</p>' +
+    '<p class="assume">Assume the jobs are identical in every other respect.</p>';
+
+  ["A","B"].forEach((side, si) => {
+    html +=
+      '<div class="opt' + (picks[idx] === side ? " sel" : "") + '" data-side="' + side + '">' +
+        '<div class="radio"></div><div class="optbody">' +
+        '<div class="jobline">' + labels[si] + '</div>' +
+        deck.map(a =>
+          '<div class="jobline"><b>' + ATTR[a].name + ':</b> ' +
+          ATTR[a].levels[ t.pairs[a][si] ] + '</div>'
+        ).join("") +
+        '</div>' +
+      '</div>';
+  });
+
+  html +=
+    '<div class="spacer"></div>' +
+    '<div class="nextwrap"><button class="next" id="next"' +
+    (picks[idx] ? "" : " disabled") + '>' +
+    (idx === TASKS.length - 1 ? "Next" : "Next") + '</button></div>';
+
+  view.innerHTML = html;
+
+  view.querySelectorAll(".opt").forEach(el => {
+    el.onclick = () => { picks[idx] = el.dataset.side; render(); };
+  });
+  document.getElementById("next").onclick = () => {
+    if(idx === TASKS.length - 1){ stage = "feedback"; }
+    else { idx++; }
+    render();
+  };
+}
+
+function renderFeedback(){
+  view.innerHTML =
+    '<div class="intro">' +
+      '<p class="stem" style="margin-bottom:10px;">What were you thinking about as you answered these questions?</p>' +
+      '<p class="assume">Tell us as much as you like. What stood out, what you weighed up, anything that was unclear, confusing, or that you were unsure how to read. There are no wrong answers and nothing is too small to mention.</p>' +
+      '<textarea id="fb" rows="8" placeholder="Type as much as you like"></textarea>' +
+    '</div>' +
+    '<div class="spacer"></div>' +
+    '<div class="nextwrap"><button class="next" id="fin">Finish</button></div>';
+  document.getElementById("fin").onclick = () => { stage = "end"; render(); };
+}
+
+function renderEnd(){
+  view.innerHTML =
+    '<div class="end"><h2>That is everything</h2>' +
+    '<p>Thank you. Please stay on the call.</p></div>';
+}
+
+function render(){
+  if(stage === "intro") renderIntro();
+  else if(stage === "task") renderTask();
+  else if(stage === "feedback") renderFeedback();
+  else renderEnd();
+}
+
+render();
+</script>
+</body>
+</html>
