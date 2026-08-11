@@ -54,6 +54,7 @@
   /* ---- task ---- */
   .stem{font-size:15px; font-weight:600; line-height:1.35; margin:0 0 5px;}
   .assume{font-size:12.5px; color:var(--muted); line-height:1.4; margin:0 0 14px;}
+  .tasknum{font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:0 0 6px;}
 
   .opt{
     display:flex; gap:11px; align-items:flex-start;
@@ -159,8 +160,19 @@ const TASKS = [
   { deck:2, pairs:{ flexstart:[1,0], appts:[2,1], parttime:[1,2], compressed:[2,0], salary:[0,1] } },
 ];
 
+/* ============================================================
+   TASK GROUPS — grouped by content (deck), not by individual
+   task. Two sub-choices per group. Pause screen shows once per
+   group, after the second sub-choice, not after every task.
+   ============================================================ */
+const TOTAL_GROUPS = DECKS.length;
+function groupOf(taskIdx){ return TASKS[taskIdx].deck + 1; } // 1-indexed for display
+function isLastInGroup(taskIdx){
+  return taskIdx === TASKS.length - 1 || TASKS[taskIdx + 1].deck !== TASKS[taskIdx].deck;
+}
+
 /* ============================================================ */
-let stage = "intro";   // intro | task | end
+let stage = "intro";   // intro | task | pause | feedback | end
 let idx = 0;
 const picks = {};
 const view = document.getElementById("view");
@@ -186,6 +198,7 @@ function renderTask(){
   const labels = ["Job A offers:", "Job B offers:"];
 
   let html =
+    '<p class="tasknum">Task ' + groupOf(idx) + ' of ' + TOTAL_GROUPS + '</p>' +
     '<p class="stem">Which job would you prefer?</p>' +
     '<p class="assume">Assume the jobs are identical in every other respect.</p>';
 
@@ -205,8 +218,7 @@ function renderTask(){
   html +=
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="next"' +
-    (picks[idx] ? "" : " disabled") + '>' +
-    (idx === TASKS.length - 1 ? "Next" : "Next") + '</button></div>';
+    (picks[idx] ? "" : " disabled") + '>Next</button></div>';
 
   view.innerHTML = html;
 
@@ -215,9 +227,20 @@ function renderTask(){
   });
   document.getElementById("next").onclick = () => {
     if(idx === TASKS.length - 1){ stage = "feedback"; }
+    else if(isLastInGroup(idx)){ stage = "pause"; }
     else { idx++; }
     render();
   };
+}
+
+function renderPause(){
+  view.innerHTML =
+    '<div class="end" style="padding-top:80px;">' +
+      '<h2>Task ' + groupOf(idx) + ' of ' + TOTAL_GROUPS + ' done</h2>' +
+      '<p>Take a moment before the next one.</p>' +
+    '</div>' +
+    '<div class="nextwrap"><button class="next" id="cont">Continue</button></div>';
+  document.getElementById("cont").onclick = () => { idx++; stage = "task"; render(); };
 }
 
 function renderFeedback(){
@@ -241,11 +264,10 @@ function renderEnd(){
 function render(){
   if(stage === "intro") renderIntro();
   else if(stage === "task") renderTask();
+  else if(stage === "pause") renderPause();
   else if(stage === "feedback") renderFeedback();
   else renderEnd();
 }
 
 render();
 </script>
-</body>
-</html>
