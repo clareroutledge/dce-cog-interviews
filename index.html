@@ -148,12 +148,15 @@
     text-align:left; vertical-align:top; cursor:pointer;
   }
   .cmp-table th{
-    font-size:10.5px; font-weight:700; color:var(--muted); text-transform:uppercase;
-    letter-spacing:.4px; background:#FAFBFB;
+    font-size:12px; font-weight:800; color:var(--tt-green-dark); text-align:center;
+    letter-spacing:.4px; background:#F7F8F9;
   }
-  .cmp-table td.sel, .cmp-table th.sel{background:#F0FBF9; border-color:var(--tt-green);}
+  .cmp-table th:nth-child(odd), .cmp-table td:nth-child(odd){background:#F7F8F9;}
+  .cmp-table th:nth-child(even), .cmp-table td:nth-child(even){background:#FFFFFF;}
+  .cmp-table td.sel, .cmp-table th.sel{background:#DFF6F1; border-color:var(--tt-green);}
   .cmp-table td.sel{font-weight:700; color:var(--ink);}
-  .cmp-table tr td:not(.sel):hover{background:#FAFBFB;}
+  .cmp-table th.sel{color:var(--tt-green-dark);}
+  .cmp-table tr td:not(.sel):hover{background:#EEF1F1;}
   .comp-card{
     border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px; margin-bottom:16px; background:#FAFBFB;
   }
@@ -485,7 +488,7 @@ function renderExploreLevels(){
   const rowCount = Math.max(...attr.levels.map(l => l.vals.length));
 
   const headCells = attr.levels.map(l =>
-    '<th class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">Select</th>'
+    '<th class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">' + l.id + '</th>'
   ).join("");
 
   let bodyRows = "";
