@@ -130,15 +130,30 @@
   }
   .menu-badge.done{background:#DFF6F1; color:var(--tt-green-dark);}
   .card-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:14px;}
+  .name-row{display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap;}
+  .name-row .opt-card{flex:1 1 0; min-width:160px; text-align:center;}
   .opt-card{
     border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px;
     cursor:pointer; background:#fff; transition:.15s;
   }
   .opt-card:hover{border-color:var(--tt-green);}
   .opt-card.sel{border-color:var(--tt-green); background:#F0FBF9;}
-  .opt-card h5{margin:0 0 9px; font-size:14.5px; font-weight:800; line-height:1.3;}
+  .opt-card h5{margin:0; font-size:14.5px; font-weight:800; line-height:1.3;}
   .opt-card .lvl{font-size:13px; color:#3F4348; line-height:1.5; margin:0 0 2px;}
   .opt-card.sel .lvl{color:var(--ink);}
+
+  .cmp-table{width:100%; border-collapse:collapse; margin-bottom:10px; table-layout:fixed;}
+  .cmp-table th, .cmp-table td{
+    border:1px solid #E3E6E8; padding:11px 13px; font-size:13px; line-height:1.5;
+    text-align:left; vertical-align:top; cursor:pointer;
+  }
+  .cmp-table th{
+    font-size:10.5px; font-weight:700; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.4px; background:#FAFBFB;
+  }
+  .cmp-table td.sel, .cmp-table th.sel{background:#F0FBF9; border-color:var(--tt-green);}
+  .cmp-table td.sel{font-weight:700; color:var(--ink);}
+  .cmp-table tr td:not(.sel):hover{background:#FAFBFB;}
   .comp-card{
     border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px; margin-bottom:16px; background:#FAFBFB;
   }
@@ -297,9 +312,7 @@ const view = document.getElementById("view");
 let exploreAttr = null;         // current attribute key being explored
 let exploreStep = null;         // "name" | "comprehension" | "levels"
 const explorePicks = {};        // { attrKey: { name:"B", level:"C" } }
-const exploreCompNotes = {};    // { attrKey: "free text" }
 let tempNamePick = null;        // holds name selection mid-flow
-let tempCompNote = "";
 
 function isExploreStage(s){ return s && s.indexOf("explore") === 0; }
 
@@ -324,7 +337,7 @@ function renderTask(){
   const labels = ["Job A offers:", "Job B offers:"];
 
   let html =
-    '<p class="tasknum">Task ' + groupOf(idx) + ' of ' + TOTAL_GROUPS + '</p>' +
+    '<p class="tasknum">Task ' + (idx + 1) + ' of ' + TASKS.length + '</p>' +
     '<p class="stem">Which job would you prefer?</p>' +
     '<p class="assume">Assume the jobs are identical in every other respect.</p>';
 
@@ -362,7 +375,7 @@ function renderTask(){
 function renderPause(){
   view.innerHTML =
     '<div class="end" style="padding-top:80px;">' +
-      '<h2>Task ' + groupOf(idx) + ' of ' + TOTAL_GROUPS + ' done</h2>' +
+      '<h2>Task ' + (idx + 1) + ' of ' + TASKS.length + ' done</h2>' +
       '<p>Take a moment before the next one.</p>' +
     '</div>' +
     '<div class="nextwrap"><button class="next" id="cont">Continue</button></div>';
@@ -373,8 +386,7 @@ function renderFeedback(){
   view.innerHTML =
     '<div class="intro">' +
       '<p class="stem" style="margin-bottom:10px;">What were you thinking about as you answered these questions?</p>' +
-      '<p class="assume">Tell us as much as you like. What stood out, what you weighed up, anything that was unclear, confusing, or that you were unsure how to read. There are no wrong answers and nothing is too small to mention.</p>' +
-      '<textarea id="fb" rows="8" placeholder="Type as much as you like"></textarea>' +
+      '<p class="assume">Talk me through what stood out, what you weighed up, and anything that was unclear, confusing, or that you were unsure how to read. Nothing is too small to mention.</p>' +
     '</div>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="fin">Continue</button></div>';
@@ -430,9 +442,9 @@ function renderExploreName(){
 
   view.innerHTML =
     '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Which name feels clearest?</div>' +
+    '<div class="explore-title">Which name is clearest?</div>' +
     '<p class="explore-sub">' + attr.label + '</p>' +
-    '<div class="card-grid">' + cards + '</div>' +
+    '<div class="name-row">' + cards + '</div>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="nextName"' + (tempNamePick ? "" : " disabled") + '>Continue</button></div>';
 
@@ -451,50 +463,52 @@ function renderExploreName(){
 function renderExploreComprehension(){
   const attr = EXPLORE[exploreAttr];
   const baseline = attr.levels[0]; // option A
-  tempCompNote = exploreCompNotes[exploreAttr] || "";
 
   view.innerHTML =
     '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">In your own words</div>' +
+    '<div class="explore-title">Talk it through</div>' +
     '<p class="explore-sub">Before we compare versions, what do you think this currently means?</p>' +
     '<div class="comp-card">' +
       '<h5>' + attr.label + '</h5>' +
       baseline.vals.map(v => '<div class="lvl">' + v + '</div>').join("") +
     '</div>' +
-    '<textarea id="compNote" rows="5" placeholder="Type as much as you like">' + tempCompNote + '</textarea>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="nextComp">Continue</button></div>';
 
   document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
-  document.getElementById("nextComp").onclick = () => {
-    exploreCompNotes[exploreAttr] = document.getElementById("compNote").value;
-    stage = "exploreLevels";
-    render();
-  };
+  document.getElementById("nextComp").onclick = () => { stage = "exploreLevels"; render(); };
 }
 
 function renderExploreLevels(){
   const attr = EXPLORE[exploreAttr];
   const currentPick = explorePicks[exploreAttr] ? explorePicks[exploreAttr].level : null;
+  const rowCount = Math.max(...attr.levels.map(l => l.vals.length));
 
-  const cards = attr.levels.map(l =>
-    '<div class="opt-card' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">' +
-      l.vals.map(v => '<div class="lvl">' + v + '</div>').join("") +
-    '</div>'
+  const headCells = attr.levels.map(l =>
+    '<th class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">Select</th>'
   ).join("");
+
+  let bodyRows = "";
+  for(let r = 0; r < rowCount; r++){
+    bodyRows += '<tr>';
+    attr.levels.forEach(l => {
+      bodyRows += '<td class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">' + (l.vals[r] || "") + '</td>';
+    });
+    bodyRows += '</tr>';
+  }
 
   view.innerHTML =
     '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Which version reads clearest?</div>' +
+    '<div class="explore-title">Which version is clearest?</div>' +
     '<p class="explore-sub">' + attr.label + '</p>' +
-    '<div class="card-grid">' + cards + '</div>' +
+    '<table class="cmp-table"><thead><tr>' + headCells + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="ghost" id="another">Try another attribute</button>' +
     '<button class="next" id="saveLevel"' + (currentPick ? "" : " disabled") + '>Save</button></div>';
 
   document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
   document.getElementById("another").onclick = () => { stage = "exploreMenu"; render(); };
-  view.querySelectorAll(".opt-card").forEach(el => {
+  view.querySelectorAll("[data-id]").forEach(el => {
     el.onclick = () => {
       if(!explorePicks[exploreAttr]) explorePicks[exploreAttr] = {};
       explorePicks[exploreAttr].level = el.dataset.id;
