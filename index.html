@@ -55,6 +55,16 @@
   .intro p{font-size:14.5px; line-height:1.5; margin:0 0 12px; color:#33383D;}
   .intro .lead{font-weight:600; color:var(--ink);}
 
+  .note-label{
+    font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.5px; margin:0 0 6px;
+  }
+  .note-card{
+    background:#EAFBF6; border-left:4px solid var(--tt-green); border-radius:8px;
+    padding:12px 14px; font-size:14px; line-height:1.5; color:var(--ink); margin:0 0 16px;
+  }
+  .note-card b{color:var(--tt-green-dark);}
+
   /* ---- task ---- */
   .stem{font-size:15px; font-weight:600; line-height:1.35; margin:0 0 5px;}
   .assume{font-size:12.5px; color:var(--muted); line-height:1.4; margin:0 0 14px;}
@@ -90,85 +100,30 @@
   }
   .next:disabled{opacity:.4; cursor:not-allowed;}
   .next:focus-visible{outline:3px solid #0B5; outline-offset:2px;}
-  .ghost{
-    background:#fff; color:var(--tt-green-dark); border:2px solid #D4D8DB; border-radius:26px;
-    padding:10px 24px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit;
-  }
-  .ghost:hover{border-color:var(--tt-green);}
   .homebar{width:130px; height:5px; border-radius:3px; background:#111; margin:12px auto 2px;}
 
   .end{text-align:center; padding:40px 10px;}
   .end h2{font-size:20px; margin:0 0 8px;}
   .end p{font-size:14px; color:var(--muted); margin:0;}
 
-  textarea{
-    width:100%; border:1px solid #D4D8DB; border-radius:10px;
-    padding:11px 12px; font-size:14px; line-height:1.45; font-family:inherit;
-    color:var(--ink); resize:vertical; margin-top:4px;
-  }
-  textarea:focus{outline:2px solid var(--tt-green); outline-offset:1px; border-color:var(--tt-green);}
-  textarea::placeholder{color:#A8AEB4;}
-
-  /* ---- explore stage ---- */
+  /* ---- review stage ---- */
   .explore-title{font-size:20px; font-weight:800; margin:4px 0 4px;}
   .explore-sub{font-size:13.5px; color:var(--muted); line-height:1.4; margin:0 0 18px;}
-  .backlink{
-    font-size:13px; color:var(--muted); cursor:pointer; margin:0 0 14px;
-    display:inline-flex; align-items:center; gap:5px; font-weight:600;
-  }
-  .backlink:hover{color:var(--tt-green-dark);}
-  .menu-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:10px;}
-  .menu-card{
-    border:2px solid #E3E6E8; border-radius:16px; padding:18px 16px;
-    cursor:pointer; background:#fff; transition:.15s;
-  }
-  .menu-card:hover{border-color:var(--tt-green);}
-  .menu-card h4{font-size:15px; font-weight:800; margin:0 0 8px; line-height:1.3;}
-  .menu-badge{
-    display:inline-block; font-size:11px; font-weight:700; padding:3px 9px;
-    border-radius:20px; background:#EEF1F2; color:var(--muted);
-  }
-  .menu-badge.done{background:#DFF6F1; color:var(--tt-green-dark);}
-  .card-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:14px;}
-  .name-row{display:flex; gap:12px; margin-bottom:10px; flex-wrap:wrap;}
-  .name-row .opt-card{flex:1 1 0; min-width:160px; text-align:center;}
-  .opt-card{
-    border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px;
-    cursor:pointer; background:#fff; transition:.15s;
-  }
-  .opt-card:hover{border-color:var(--tt-green);}
-  .opt-card.sel{border-color:var(--tt-green); background:#F0FBF9;}
-  .opt-card h5{margin:0; font-size:14.5px; font-weight:800; line-height:1.3;}
-  .opt-card .lvl{font-size:13px; color:#3F4348; line-height:1.5; margin:0 0 2px;}
-  .opt-card.sel .lvl{color:var(--ink);}
 
-  .cmp-table{width:100%; border-collapse:collapse; margin-bottom:10px; table-layout:fixed;}
-  .cmp-table th, .cmp-table td{
-    border:1px solid #E3E6E8; padding:11px 13px; font-size:13px; line-height:1.5;
-    text-align:left; vertical-align:top; cursor:pointer;
+  .rev-table{width:100%; border-collapse:collapse; margin-bottom:10px;}
+  .rev-table th, .rev-table td{
+    border:1px solid #E3E6E8; padding:9px 11px; font-size:12.5px; line-height:1.45;
+    text-align:left; vertical-align:top;
   }
-  .cmp-table th{
-    font-size:12px; font-weight:800; color:var(--tt-green-dark); text-align:center;
-    letter-spacing:.4px; background:#F7F8F9;
+  .rev-table th{
+    font-size:10.5px; font-weight:700; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.4px; background:#FAFBFB;
   }
-  .cmp-table th:nth-child(odd), .cmp-table td:nth-child(odd){background:#F7F8F9;}
-  .cmp-table th:nth-child(even), .cmp-table td:nth-child(even){background:#FFFFFF;}
-  .cmp-table td.sel, .cmp-table th.sel{background:#DFF6F1; border-color:var(--tt-green);}
-  .cmp-table td.sel{font-weight:700; color:var(--ink);}
-  .cmp-table th.sel{color:var(--tt-green-dark);}
-  .cmp-table tr td:not(.sel):hover{background:#EEF1F1;}
-  .comp-card{
-    border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px; margin-bottom:16px; background:#FAFBFB;
-  }
-  .comp-card h5{margin:0 0 9px; font-size:14.5px; font-weight:800;}
-  .comp-card .lvl{font-size:13px; color:#3F4348; line-height:1.5; margin:0 0 2px;}
-  .summary-block{
-    border:2px solid #E3E6E8; border-radius:14px; padding:16px 18px; margin-bottom:14px;
-  }
-  .summary-block h5{margin:0 0 4px; font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.4px;}
-  .summary-block h4{margin:0 0 9px; font-size:15px; font-weight:800;}
-  .summary-block .lvl{font-size:13.5px; line-height:1.5; margin:0 0 2px;}
-  .summary-empty{color:var(--muted); font-size:13px; font-style:italic;}
+  .rev-name{font-weight:800; white-space:nowrap;}
+  .rev-row{cursor:pointer;}
+  .rev-row:hover td{background:#FAFBFB;}
+  .rev-row.marked td{background:#DFF6F1;}
+  .rev-row.marked .rev-name{color:var(--tt-green-dark);}
 </style>
 </head>
 <body>
@@ -198,11 +153,11 @@ const ATTR = {
   support:    { name:"Support staff to reduce workload", levels:["None available","Some for specific tasks","Dedicated and regularly available"] },
   maternity:  { name:"Paid maternity leave",        levels:["66% pay for 18 weeks","100% pay for 18 weeks","100% pay for 24 weeks"] },
   wfh:        { name:"Days working from home",      levels:["None","Half a day a week","2 days a week"] },
-  outside:    { name:"Work outside contracted hours", levels:["Regular evening and weekend work","Occasional","Rare"] },
+  outside:    { name:"Evening and weekend work",    levels:["Most of the time","About half the time","Rarely"] },
   paternity:  { name:"Paid paternity leave",        levels:["90% pay for 2 weeks","100% pay for 18 weeks","100% pay for 24 weeks"] },
   flexstart:  { name:"Start and finish times",      levels:["Fixed start and finish times","Start later or finish earlier, once a fortnight","Start later or finish earlier, once a week"] },
-  appts:      { name:"Time off for appointments",   levels:["Discouraged","Accommodated with advance planning","Flexibly supported when needed"] },
-  parttime:   { name:"Part-time and job sharing",   levels:["Discouraged","Considered case by case","Actively supported"] },
+  appts:      { name:"Appointments and events",     levels:["Rarely approved","About half approved","Almost always approved"] },
+  parttime:   { name:"Part-time and job sharing",   levels:["Rarely approved","About half approved","Almost always approved"] },
   compressed: { name:"Compressed working week",     levels:["Standard 5-day week","9-day fortnight available","4-day week available"] },
   salary:     { name:"Salary",                      levels:["10% lower than current","Same as current","10% higher than current"] },
 };
@@ -234,98 +189,22 @@ function isLastInGroup(taskIdx){
   return taskIdx === TASKS.length - 1 || TASKS[taskIdx + 1].deck !== TASKS[taskIdx].deck;
 }
 
-/* ============================================================
-   EXPLORE STAGE — name and wording options for the four
-   "process" attributes. Current wording is always option A.
-   ============================================================ */
-const EXPLORE_ORDER = ["parttime","appts","compressed","wfh"];
-
-const EXPLORE = {
-  parttime: {
-    label: "Part-time and job sharing",
-    comprehensionCheck: false,
-    names: [
-      { id:"A", text:"Part-time and job sharing" },
-      { id:"B", text:"Reduced hours or job share" },
-      { id:"C", text:"Flexibility over how much you work" },
-      { id:"D", text:"Working part-time" },
-    ],
-    levels: [
-      { id:"A", vals:["Discouraged","Considered case by case","Actively supported"] },
-      { id:"B", vals:["Not something staff have managed to arrange","Some staff have arranged it","Common, with staff currently doing it"] },
-      { id:"C", vals:["Almost never approved","About half approved","Almost always approved"] },
-      { id:"D", vals:["Neither reduced hours nor job share available","Reduced hours or job share considered individually","Reduced hours and job share both actively offered"] },
-    ]
-  },
-  appts: {
-    label: "Time off for appointments",
-    comprehensionCheck: false,
-    names: [
-      { id:"A", text:"Time off for appointments" },
-      { id:"B", text:"Time off for personal matters" },
-      { id:"C", text:"Time off during the working day" },
-      { id:"D", text:"Flexibility for personal commitments" },
-    ],
-    levels: [
-      { id:"A", vals:["Discouraged","Accommodated with advance planning","Flexibly supported when needed"] },
-      { id:"B", vals:["Discouraged","One-off events accepted in advance","One-off events supported, even at short notice"] },
-      { id:"C", vals:["Rarely approved","Usually approved within a day","Approved on the day, if needed"] },
-      { id:"D", vals:["Not something staff have been able to get time off for","Staff can usually arrange this","Easily arranged, whenever needed"] },
-    ]
-  },
-  compressed: {
-    label: "Compressed working week",
-    comprehensionCheck: true,
-    names: [
-      { id:"A", text:"Compressed working week" },
-      { id:"B", text:"Working hours spread differently" },
-      { id:"C", text:"Days worked each week" },
-      { id:"D", text:"Reduced or restructured working week" },
-    ],
-    levels: [
-      { id:"A", vals:["Standard 5-day week","9-day fortnight available","4-day week available"] },
-      { id:"B", vals:["Standard 5-day week","Same weekly hours as now, over 9 days","Same weekly hours as now, over 4 days"] },
-      { id:"C", vals:["Standard 5-day week","Fewer weekly hours than now, over 9 days","Fewer weekly hours than now, over 4 days"] },
-    ]
-  },
-  wfh: {
-    label: "Days working from home",
-    comprehensionCheck: false,
-    names: [
-      { id:"A", text:"Days working from home" },
-      { id:"B", text:"Flexible working location" },
-      { id:"C", text:"Time away from site" },
-    ],
-    levels: [
-      { id:"A", vals:["None","Half a day a week","2 days a week"] },
-      { id:"B", vals:["None","Up to 1 hour a week, taken flexibly","Up to 2 hours a week, taken flexibly"] },
-      { id:"C", vals:["None","Half a day a week at home, for planning","2 days a week at home, for planning"] },
-      { id:"D", vals:["No flexibility to work away from site","Some flexibility to work away from site around personal commitments","Regular flexibility to work away from site around personal commitments"] },
-    ]
-  },
-};
-
 /* ============================================================ */
-let stage = "intro";
+let stage = "intro";   // intro | task | pause | feedback | jobIdentity | review | end
 let idx = 0;
 const picks = {};
 const view = document.getElementById("view");
 
-// explore state
-let exploreAttr = null;         // current attribute key being explored
-let exploreStep = null;         // "name" | "comprehension" | "levels"
-const explorePicks = {};        // { attrKey: { name:"B", level:"C" } }
-let tempNamePick = null;        // holds name selection mid-flow
-
-function isExploreStage(s){ return s && s.indexOf("explore") === 0; }
+function isWideStage(s){ return s === "review"; }
 
 function renderIntro(){
   view.innerHTML =
     '<div class="intro">' +
       '<h1>Before you start</h1>' +
-      '<p class="lead">You will see some pairs of jobs.</p>' +
+      '<div class="note-label">A note before you start</div>' +
+      '<div class="note-card">You will see some pairs of jobs, which could be in <b>any sector</b>, an office, a shop, or somewhere else entirely. Think about what\u2019s on offer, not what kind of job it is.</div>' +
+      '<p>For each pair, choose the job you would prefer, based on what matters most to you, whether or not it feels possible in your current role today.</p>' +
       '<p>Everything listed about each job is accurate and reflects the actual working conditions of that job.</p>' +
-      '<p>For each pair, choose the job you would prefer.</p>' +
       '<p>Assume the two jobs are identical in every other respect.</p>' +
       '<p>There are no right answers.</p>' +
     '</div>' +
@@ -393,160 +272,42 @@ function renderFeedback(){
     '</div>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="fin">Continue</button></div>';
-  document.getElementById("fin").onclick = () => { stage = "exploreIntro"; render(); };
+  document.getElementById("fin").onclick = () => { stage = "jobIdentity"; render(); };
 }
 
-/* ---------------- explore stage ---------------- */
-
-function renderExploreIntro(){
+function renderJobIdentity(){
   view.innerHTML =
-    '<div class="explore-title">A few different ways to ask this</div>' +
-    '<p class="explore-sub">Now we would like to look at a few different ways some of these questions could be written, and get your reactions.</p>' +
-    '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="next" id="go2">Start</button></div>';
-  document.getElementById("go2").onclick = () => { stage = "exploreMenu"; render(); };
-}
-
-function renderExploreMenu(){
-  const cards = EXPLORE_ORDER.map(key => {
-    const attr = EXPLORE[key];
-    const done = !!(explorePicks[key] && explorePicks[key].name && explorePicks[key].level);
-    return '<div class="menu-card" data-key="' + key + '">' +
-      '<h4>' + attr.label + '</h4>' +
-      '<span class="menu-badge' + (done ? " done" : "") + '">' + (done ? "Reviewed" : "Not reviewed yet") + '</span>' +
-    '</div>';
-  }).join("");
-
-  view.innerHTML =
-    '<div class="explore-title">Pick one to look at</div>' +
-    '<p class="explore-sub">In any order you like.</p>' +
-    '<div class="menu-grid">' + cards + '</div>' +
-    '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="next" id="toSummary">Finish</button></div>';
-
-  view.querySelectorAll(".menu-card").forEach(el => {
-    el.onclick = () => {
-      exploreAttr = el.dataset.key;
-      tempNamePick = explorePicks[exploreAttr] ? explorePicks[exploreAttr].name : null;
-      stage = "exploreName";
-      render();
-    };
-  });
-  document.getElementById("toSummary").onclick = () => { stage = "exploreSummary"; render(); };
-}
-
-function renderExploreName(){
-  const attr = EXPLORE[exploreAttr];
-  const cards = attr.names.map(n =>
-    '<div class="opt-card' + (tempNamePick === n.id ? " sel" : "") + '" data-id="' + n.id + '">' +
-      '<h5>' + n.text + '</h5>' +
-    '</div>'
-  ).join("");
-
-  view.innerHTML =
-    '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Which name is clearest?</div>' +
-    '<p class="explore-sub">' + attr.label + '</p>' +
-    '<div class="name-row">' + cards + '</div>' +
-    '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="next" id="nextName"' + (tempNamePick ? "" : " disabled") + '>Continue</button></div>';
-
-  document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
-  view.querySelectorAll(".opt-card").forEach(el => {
-    el.onclick = () => { tempNamePick = el.dataset.id; render(); };
-  });
-  document.getElementById("nextName").onclick = () => {
-    if(!explorePicks[exploreAttr]) explorePicks[exploreAttr] = {};
-    explorePicks[exploreAttr].name = tempNamePick;
-    stage = attr.comprehensionCheck ? "exploreComprehension" : "exploreLevels";
-    render();
-  };
-}
-
-function renderExploreComprehension(){
-  const attr = EXPLORE[exploreAttr];
-  const baseline = attr.levels[0]; // option A
-
-  view.innerHTML =
-    '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Talk it through</div>' +
-    '<p class="explore-sub">Before we compare versions, what do you think this currently means?</p>' +
-    '<div class="comp-card">' +
-      '<h5>' + attr.label + '</h5>' +
-      baseline.vals.map(v => '<div class="lvl">' + v + '</div>').join("") +
+    '<div class="intro">' +
+      '<p class="stem" style="margin-bottom:10px;">What kind of jobs were you picturing?</p>' +
+      '<p class="assume">Talk me through the kinds of jobs you had in mind as you worked through these, teaching jobs, a mix, or something else entirely.</p>' +
     '</div>' +
     '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="next" id="nextComp">Continue</button></div>';
-
-  document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
-  document.getElementById("nextComp").onclick = () => { stage = "exploreLevels"; render(); };
+    '<div class="nextwrap"><button class="next" id="finJob">Continue</button></div>';
+  document.getElementById("finJob").onclick = () => { stage = "review"; render(); };
 }
 
-function renderExploreLevels(){
-  const attr = EXPLORE[exploreAttr];
-  const currentPick = explorePicks[exploreAttr] ? explorePicks[exploreAttr].level : null;
-  const rowCount = Math.max(...attr.levels.map(l => l.vals.length));
+/* ---------------- review stage ---------------- */
 
-  const headCells = attr.levels.map(l =>
-    '<th class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">' + l.id + '</th>'
-  ).join("");
-
-  let bodyRows = "";
-  for(let r = 0; r < rowCount; r++){
-    bodyRows += '<tr>';
-    attr.levels.forEach(l => {
-      bodyRows += '<td class="cmp-col' + (currentPick === l.id ? " sel" : "") + '" data-id="' + l.id + '">' + (l.vals[r] || "") + '</td>';
-    });
-    bodyRows += '</tr>';
-  }
-
-  view.innerHTML =
-    '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Which version is clearest?</div>' +
-    '<p class="explore-sub">' + attr.label + '</p>' +
-    '<table class="cmp-table"><thead><tr>' + headCells + '</tr></thead><tbody>' + bodyRows + '</tbody></table>' +
-    '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="ghost" id="another">Try another attribute</button>' +
-    '<button class="next" id="saveLevel"' + (currentPick ? "" : " disabled") + '>Save</button></div>';
-
-  document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
-  document.getElementById("another").onclick = () => { stage = "exploreMenu"; render(); };
-  view.querySelectorAll("[data-id]").forEach(el => {
-    el.onclick = () => {
-      if(!explorePicks[exploreAttr]) explorePicks[exploreAttr] = {};
-      explorePicks[exploreAttr].level = el.dataset.id;
-      render();
-    };
-  });
-  document.getElementById("saveLevel").onclick = () => { stage = "exploreMenu"; render(); };
-}
-
-function renderExploreSummary(){
-  const blocks = EXPLORE_ORDER.map(key => {
-    const attr = EXPLORE[key];
-    const pick = explorePicks[key];
-    if(!pick || !pick.name || !pick.level){
-      return '<div class="summary-block"><h5>' + attr.label + '</h5><p class="summary-empty">Not reviewed</p></div>';
-    }
-    const nameObj = attr.names.find(n => n.id === pick.name);
-    const levelObj = attr.levels.find(l => l.id === pick.level);
-    return '<div class="summary-block">' +
-      '<h5>' + attr.label + '</h5>' +
-      '<h4>' + nameObj.text + '</h4>' +
-      levelObj.vals.map(v => '<div class="lvl">' + v + '</div>').join("") +
-    '</div>';
+function renderReview(){
+  const rows = Object.keys(ATTR).map(key => {
+    const a = ATTR[key];
+    return '<tr class="rev-row" data-key="' + key + '">' +
+      '<td class="rev-name">' + a.name + '</td>' +
+      a.levels.map(v => '<td>' + v + '</td>').join("") +
+    '</tr>';
   }).join("");
 
   view.innerHTML =
-    '<div class="backlink" id="back">&larr; Back to menu</div>' +
-    '<div class="explore-title">Here is what we have landed on</div>' +
-    '<p class="explore-sub">Based on your choices just now.</p>' +
-    blocks +
+    '<div class="explore-title">All the attributes together</div>' +
+    '<p class="explore-sub">Talk through whichever ones feel useful, or none at all. Tap a row to mark it as discussed.</p>' +
+    '<table class="rev-table"><thead><tr><th>Attribute</th><th>Level 1</th><th>Level 2</th><th>Level 3</th></tr></thead><tbody>' + rows + '</tbody></table>' +
     '<div class="spacer"></div>' +
-    '<div class="nextwrap"><button class="next" id="fin2">Finish</button></div>';
+    '<div class="nextwrap"><button class="next" id="finRev">Finish</button></div>';
 
-  document.getElementById("back").onclick = () => { stage = "exploreMenu"; render(); };
-  document.getElementById("fin2").onclick = () => { stage = "end"; render(); };
+  view.querySelectorAll(".rev-row").forEach(el => {
+    el.onclick = () => { el.classList.toggle("marked"); };
+  });
+  document.getElementById("finRev").onclick = () => { stage = "end"; render(); };
 }
 
 function renderEnd(){
@@ -556,17 +317,13 @@ function renderEnd(){
 }
 
 function render(){
-  document.querySelector(".phone").classList.toggle("wide", isExploreStage(stage));
+  document.querySelector(".phone").classList.toggle("wide", isWideStage(stage));
   if(stage === "intro") renderIntro();
   else if(stage === "task") renderTask();
   else if(stage === "pause") renderPause();
   else if(stage === "feedback") renderFeedback();
-  else if(stage === "exploreIntro") renderExploreIntro();
-  else if(stage === "exploreMenu") renderExploreMenu();
-  else if(stage === "exploreName") renderExploreName();
-  else if(stage === "exploreComprehension") renderExploreComprehension();
-  else if(stage === "exploreLevels") renderExploreLevels();
-  else if(stage === "exploreSummary") renderExploreSummary();
+  else if(stage === "jobIdentity") renderJobIdentity();
+  else if(stage === "review") renderReview();
   else renderEnd();
 }
 
