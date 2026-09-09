@@ -51,19 +51,21 @@
   }
 
   /* ---- preamble ---- */
-  .intro h1{font-size:19px; line-height:1.3; margin:6px 0 14px;}
-  .intro p{font-size:14.5px; line-height:1.5; margin:0 0 12px; color:#33383D;}
-  .intro .lead{font-weight:600; color:var(--ink);}
+  .intro h1{font-size:19px; line-height:1.3; margin:6px 0 16px;}
 
-  .note-label{
-    font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase;
-    letter-spacing:.5px; margin:0 0 6px;
+  .instr-list{margin:0 0 4px; padding:0; list-style:none;}
+  .instr-item{
+    display:flex; gap:12px; align-items:flex-start;
+    padding:12px 0; border-bottom:1px solid #EEF1F1;
   }
-  .note-card{
-    background:#EAFBF6; border-left:4px solid var(--tt-green); border-radius:8px;
-    padding:12px 14px; font-size:14px; line-height:1.5; color:var(--ink); margin:0 0 16px;
+  .instr-item:last-child{border-bottom:none;}
+  .instr-num{
+    flex:0 0 22px; width:22px; height:22px; border-radius:50%;
+    background:var(--tt-green); color:#fff; font-size:12px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
   }
-  .note-card b{color:var(--tt-green-dark);}
+  .instr-text{font-size:14px; line-height:1.55; color:#33383D;}
+  .instr-text b{color:var(--tt-green-dark);}
 
   /* ---- task ---- */
   .stem{font-size:15px; font-weight:600; line-height:1.35; margin:0 0 5px;}
@@ -198,15 +200,22 @@ const view = document.getElementById("view");
 function isWideStage(s){ return s === "review"; }
 
 function renderIntro(){
+  const items = [
+    "You will see some pairs of jobs, which could be in <b>any sector</b>, an office, a shop, or somewhere else entirely. Think about what\u2019s on offer, not what kind of job it is.",
+    "Choose whichever job you\u2019d genuinely prefer, <b>even if it doesn\u2019t feel possible in your current job right now</b>.",
+    "Everything listed about each job is accurate and reflects the actual working conditions of that job.",
+    "Assume the two jobs are identical in every other respect.",
+    "There are no right answers."
+  ];
+
   view.innerHTML =
     '<div class="intro">' +
       '<h1>Before you start</h1>' +
-      '<div class="note-label">A note before you start</div>' +
-            '<div class="note-card">You will see some pairs of jobs, which could be in <b>any sector</b>, an office, a shop, or somewhere else entirely. Think about what\u2019s on offer, not what kind of job it is. Choose whichever job you\u2019d genuinely prefer, <b>even if it doesn\u2019t feel possible in your current job right now</b>.</div>' +
-      '<p>For each pair, choose the job you would prefer.</p>' +
-      '<p>Everything listed about each job is accurate and reflects the actual working conditions of that job.</p>' +
-      '<p>Assume the two jobs are identical in every other respect.</p>' +
-      '<p>There are no right answers.</p>' +
+      '<ul class="instr-list">' +
+        items.map((t, i) =>
+          '<li class="instr-item"><div class="instr-num">' + (i + 1) + '</div><div class="instr-text">' + t + '</div></li>'
+        ).join("") +
+      '</ul>' +
     '</div>' +
     '<div class="spacer"></div>' +
     '<div class="nextwrap"><button class="next" id="go">Start</button></div>';
