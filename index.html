@@ -72,9 +72,9 @@
   .assume{font-size:12.5px; color:var(--muted); line-height:1.4; margin:0 0 14px;}
   .tasknum{font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:0 0 6px;}
   .sector-reminder{
-    font-size:11.5px; font-weight:700; color:var(--tt-green-dark);
-    background:#EAFBF6; display:inline-block; padding:4px 10px;
-    border-radius:12px; margin:0 0 10px;
+    display:block; font-size:12.5px; font-weight:700; color:var(--tt-green-dark);
+    background:#EAFBF6; padding:8px 12px; border-radius:8px; margin:0 0 14px;
+    line-height:1.4;
   }
 
   .opt{
@@ -234,9 +234,9 @@ function renderTask(){
 
   let html =
     '<p class="tasknum">Task ' + (idx + 1) + ' of ' + TASKS.length + '</p>' +
-    '<p class="sector-reminder">Not necessarily teaching \u2014 any occupation</p>' +
     '<p class="stem">Which job would you prefer?</p>' +
-    '<p class="assume">Assume the jobs are identical in every other respect.</p>';
+    '<p class="assume">Assume the jobs are identical in every other respect.</p>' +
+    '<p class="sector-reminder">Think about a range of occupations you know well or find interesting, teaching included.</p>';
 
   ["A","B"].forEach((side, si) => {
     html +=
