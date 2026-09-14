@@ -71,6 +71,11 @@
   .stem{font-size:15px; font-weight:600; line-height:1.35; margin:0 0 5px;}
   .assume{font-size:12.5px; color:var(--muted); line-height:1.4; margin:0 0 14px;}
   .tasknum{font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin:0 0 6px;}
+  .sector-reminder{
+    font-size:11.5px; font-weight:700; color:var(--tt-green-dark);
+    background:#EAFBF6; display:inline-block; padding:4px 10px;
+    border-radius:12px; margin:0 0 10px;
+  }
 
   .opt{
     display:flex; gap:11px; align-items:flex-start;
@@ -160,7 +165,7 @@ const ATTR = {
   flexstart:  { name:"Flexible start/finish times",  levels:["Never","Fortnightly","Weekly"] },
   appts:      { name:"Appointments/events",         levels:["Rarely approved","About half approved","Almost always approved"] },
   parttime:   { name:"Part-time/job sharing",       levels:["Rarely approved","About half approved","Almost always approved"] },
-  compressed: { name:"Extra day off",               levels:["No extra day off","One every fortnight","One every week"] },
+  compressed: { name:"Compressed working week",     levels:["5-day week","9-day working fortnight"] },
   salary:     { name:"Salary",                      levels:["10% lower than current","Same as current","10% higher than current"] },
 };
 
@@ -182,7 +187,7 @@ const TASKS = [
   { deck:1, pairs:{ wfh:[0,2], outside:[1,0], paternity:[2,0], salary:[1,2] } },
   { deck:1, pairs:{ wfh:[1,0], outside:[2,1], paternity:[1,2], salary:[0,1] } },
   { deck:2, pairs:{ flexstart:[0,2], appts:[1,0], parttime:[2,0], compressed:[0,1], salary:[1,2] } },
-  { deck:2, pairs:{ flexstart:[1,0], appts:[2,1], parttime:[1,2], compressed:[2,0], salary:[0,1] } },
+  { deck:2, pairs:{ flexstart:[1,0], appts:[2,1], parttime:[1,2], compressed:[1,0], salary:[0,1] } },
 ];
 
 const TOTAL_GROUPS = DECKS.length;
@@ -229,6 +234,7 @@ function renderTask(){
 
   let html =
     '<p class="tasknum">Task ' + (idx + 1) + ' of ' + TASKS.length + '</p>' +
+    '<p class="sector-reminder">Not necessarily teaching \u2014 any occupation</p>' +
     '<p class="stem">Which job would you prefer?</p>' +
     '<p class="assume">Assume the jobs are identical in every other respect.</p>';
 
